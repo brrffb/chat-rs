@@ -12,12 +12,6 @@ fn main() {
         exit(-1);
     }
 
-    let mut username = String::new();
-    println!("Enter your username: ");
-    io::stdin()
-        .read_line(&mut username)
-        .expect("Failed to read input");
-
     let addr: String = format!("{}:{}", args[1], args[2]);
 
     let mut server = TcpStream::connect(addr.clone()).expect("Failed to connect to the server");
@@ -25,6 +19,12 @@ fn main() {
         .set_nonblocking(true)
         .expect("set_nonblocking failed");
     println!("Connected to {}", addr);
+
+    let mut username = String::new();
+    println!("Enter your username: ");
+    io::stdin()
+        .read_line(&mut username)
+        .expect("Failed to read input");
 
     let mut cloned_server = server.try_clone().expect("Failed to clone server");
 
