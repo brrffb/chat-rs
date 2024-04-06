@@ -1,6 +1,6 @@
 use std::env::args;
-use std::io::{self, Read, Write};
 use std::io::ErrorKind::WouldBlock;
+use std::io::{self, Read, Write};
 use std::net::TcpStream;
 use std::process::exit;
 use std::thread;
@@ -11,6 +11,13 @@ fn main() {
         println!("Please provide an address and a port to connect to");
         exit(-1);
     }
+
+    let mut username = String::new();
+    println!("Enter your username: ");
+    io::stdin()
+        .read_line(&mut username)
+        .expect("Failed to read input");
+
     let addr: String = format!("{}:{}", args[1], args[2]);
 
     let mut server = TcpStream::connect(addr.clone()).expect("Failed to connect to the server");
@@ -44,7 +51,11 @@ fn main() {
 
     loop {
         let mut input = String::new();
-        io::stdin().read_line(&mut input).expect("Failed to read input");
-        server.write_all(input.as_bytes()).expect("Failed to send message to server");
+        io::stdin()
+            .read_line(&mut input)
+            .expect("Failed to read input");
+        server
+            .write_all(format!("{username}: {input}").as_bytes())
+            .expect("Failed to send message to server");
     }
 }

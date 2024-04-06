@@ -33,6 +33,7 @@ fn main() {
                     Err(err) => {
                         if err.kind() == std::io::ErrorKind::WouldBlock {
                             eprintln!("Could not read message from client {addr}: {err}");
+                            continue;
                         }
                         return;
                     }
@@ -42,7 +43,7 @@ fn main() {
                 } else {
                     return;
                 };
-                println!("New message received from client {addr}: {msg}");
+                println!("New message received from client {addr}: '{msg}'");
 
                 sender.send((msg, addr)).expect("Failed to send message");
             });
