@@ -14,3 +14,4 @@ name = "client"
 path = "./src/client.rs"
 
 [dependencies]
+mio = { version = "1", features = ["net", "os-poll"] }
