@@ -55,7 +55,7 @@ fn main() {
             .read_line(&mut input)
             .expect("Failed to read input");
         server
-            .write_all(format!("{username}: {input}").as_bytes())
+            .write_all(format!("{}: {}", username.trim(), input.trim()).as_bytes())
             .expect("Failed to send message to server");
     }
 }
